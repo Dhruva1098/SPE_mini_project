@@ -16,7 +16,7 @@ int main() {
       case 1:
         std::cout << "Input a number to Square root of:";
         std::cin >> num1;
-        std::cout << "Square root of " << num1 << " is: " << sq_root(num1) << "\n Would you like to continue?\n\t1.Yes\n\t2.No" << std::endl;
+        std::cout << "Square root of " << num1 << " is: " << sq_root(num1) << "\nWould you like to continue?\n\t1.Yes\n\t2.No" << std::endl;
 
         std::cin >> temp2;
         check(loop, temp2);
@@ -24,10 +24,25 @@ int main() {
       case 2:
         std::cout << "Input a number to calculate Factorial of:";
         std::cin >> num1;
-        std::cout << "Factorial of " << num1 << " is: " << factorial(num1) << "\n Would you like to continue?\n\t1.Yes\n\t2.No" << std::endl;
+        std::cout << "Factorial of " << num1 << " is: " << factorial(num1) << "\nWould you like to continue?\n\t1.Yes\n\t2.No" << std::endl;
         std::cin >> temp2;
         check(loop, temp2);
       break;
+      case 3:
+        std::cout << "Input a number to calculate natural Log of:";
+        std::cin >> num1;
+        std::cout << "log of " << num1 << " is: " << logarithm(num1) << "\nWould you like to continue?\n\t1.Yes\n\t2.No" << std::endl;
+        std::cin >> temp2;
+        check(loop, temp2);
+      break;
+      case 4:
+        std::cout << "Input a number to power of:";
+        std::cin >> num1;
+        std::cout << "\nInput the power:";
+        std::cin >> num2;
+        std::cout << "Power of " << num1 << " to " << num2 << " is: " << power(num1, num2) << "\nWould you like to continue?\n\t1.Yes\n\t2.No" << std::endl;
+        std::cin >> temp2;
+        check(loop, temp2);
       default:
         std::cout << " Invalid Input" << std::endl;
     }

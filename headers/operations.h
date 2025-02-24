@@ -9,22 +9,20 @@ double sq_root(T a) {
   return sqrt(static_cast<double>(a));
 }
 
-template <typename T>
-auto factorial(T a) {
-  int temp = static_cast<int>(a);
-  if (temp == a && temp >= 0) {
-    int out = 1;
-    if (temp == 0) { return 1;}
+inline unsigned long long factorial(int a) {
+  int temp = a;
+  if (temp == a && temp == 0) { return 1;}
+  if (temp == a && temp > 0) {
+    unsigned long long out = 1;
     while(temp){
       out *=temp--;
     } return out;
-  } else {
-    std::cerr << "Can only perform factorial for positive integers" << std::endl;
   }
+  return -1;
 }
 
 template <typename T>
-auto log(T a) {
+auto logarithm(T a) {
   return std::log(a);
 }
 
