@@ -5,12 +5,11 @@ CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++17
 
 # Directories
-OBJ_DIR = obj
 HEADER_DIR = headers
 
 # Source and Object files
-SRCS = main.cpp operations.cpp
-OBJS = $(OBJ_DIR)/main.o $(OBJ_DIR)/operations.o
+SRC = main.cpp
+OBJ = obj/main.o
 
 # Output executable
 TARGET = calculator_cli
@@ -20,20 +19,20 @@ all: $(TARGET)
 
 # Ensure obj directory exists
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	mkdir -p obj
 
-# Compile source files into object files
-$(OBJ_DIR)/%.o: %.cpp | $(OBJ_DIR)
-	$(CXX) $(CXXFLAGS) -I$(HEADER_DIR) -c $< -o $@
+# Compile main.cpp into an object file
+$(OBJ): $(SRC) | $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -I$(HEADER_DIR) -c $(SRC) -o $(OBJ)
 
-# Link object files into final executable
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET)
+# Link to create the final executable
+$(TARGET): $(OBJ)
+	$(CXX) $(CXXFLAGS) $(OBJ) -o $(TARGET)
 	@echo "Build complete. Run './$(TARGET)' to start the CLI calculator."
 
 # Clean build files
 clean:
-	rm -rf $(OBJ_DIR) $(TARGET)
+	rm -rf $(TARGET)
 	@echo "Cleanup complete."
 
 .PHONY: all clean
