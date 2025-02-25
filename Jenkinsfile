@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE_NAME = 'scientific_calculator'
         DOCKER_TAG = 'dhruva1098/scientific-calculator:latest'
         GITHUB_REPO_URL = 'https://github.com/Dhruva1098/SPE_mini_project.git'
-        DOCKER_CREDENTIALS_ID = 'docker-creds'  // Ensure correct Jenkins credential ID
+        DOCKER_CREDENTIALS_ID = 'docker-cred'  // Ensure correct Jenkins credential ID
     }
 
     stages {
