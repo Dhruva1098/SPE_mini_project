@@ -16,13 +16,15 @@ async def square_root(number: float):
 
 @app.get("/factorial/{number}")
 async def calculate_factorial(number: int):
+    """Calculate the factorial of a non-negative integer."""
     if number < 0:
         raise HTTPException(status_code=400, detail="Factorial is not defined for negative numbers")
+    if number > 100:  # Example threshold - adjust as needed. Factorial of 100 is already huge!
+        raise HTTPException(status_code=400, detail="Factorial calculation is limited to numbers <= 100 for performance reasons.")
     try:
         return {"result": math.factorial(number)}
-    except ValueError: # For very large numbers that exceed factorial limits
+    except ValueError: # This might still catch issues for extremely large inputs beyond Python's integer limit, though less likely now
         raise HTTPException(status_code=400, detail="Factorial calculation out of range for this input")
-
 
 @app.get("/ln/{number}")
 async def natural_logarithm(number: float):

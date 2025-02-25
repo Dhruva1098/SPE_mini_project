@@ -20,8 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d365146-0673-407f-9db1-1029e3bcfb60" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/calculatpr.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -36,8 +35,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -120,7 +119,7 @@
       <updated>1740377173069</updated>
       <workItem from="1740377174133" duration="6476000" />
       <workItem from="1740456306055" duration="1317000" />
-      <workItem from="1740458155434" duration="1559000" />
+      <workItem from="1740458155434" duration="2437000" />
     </task>
     <servers />
   </component>
