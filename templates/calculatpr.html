@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scientific Calculator</title>
+    <style>
+        body { font-family: sans-serif; }
+        .container { width: 300px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; }
+        input[type="number"] { width: calc(100% - 12px); padding: 8px; margin-bottom: 10px; box-sizing: border-box; }
+        button { padding: 10px 15px; margin-right: 5px; cursor: pointer; }
+        #result { margin-top: 10px; padding: 10px; border: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Scientific Calculator</h1>
+
+        <div>
+            <label for="number1">Number 1:</label>
+            <input type="number" id="number1">
+        </div>
+        <div id="number2-input" style="display: none;"> <!-- Initially hidden, for power function -->
+            <label for="number2">Number 2:</label>
+            <input type="number" id="number2">
+        </div>
+
+        <div style="margin-top: 15px;">
+            <button onclick="calculateSqrt()">Square Root</button>
+            <button onclick="calculateFactorial()">Factorial</button>
+            <button onclick="calculateLn()">Natural Log</button>
+            <button onclick="showPowerInput()">Power</button>
+            <button onclick="calculatePower()" id="powerButton" style="display: none;">Calculate Power</button>
+        </div>
+
+        <div id="result">
+            Result will be displayed here.
+        </div>
+    </div>
+
+    <script>
+        const resultDiv = document.getElementById('result');
+        const number1Input = document.getElementById('number1');
+        const number2InputDiv = document.getElementById('number2-input');
+        const number2Input = document.getElementById('number2');
+        const powerButton = document.getElementById('powerButton');
+
+        function calculateSqrt() {
+            number2InputDiv.style.display = 'none';
+            powerButton.style.display = 'none';
+            const number = number1Input.value;
+            fetch(`/sqrt/${number}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.textContent = `Square Root of ${number} is: ${data.result}`;
+                })
+                .catch(error => {
+                    resultDiv.textContent = `Error: ${error}`;
+                });
+        }
+
+        function calculateFactorial() {
+            number2InputDiv.style.display = 'none'; // Hide number2 input
+            powerButton.style.display = 'none';      // Hide power button
+            const number = number1Input.value;
+            fetch(`/factorial/${number}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.textContent = `Factorial of ${number} is: ${data.result}`;
+                })
+                .catch(error => {
+                    resultDiv.textContent = `Error: ${error}`;
+                });
+        }
+
+        function calculateLn() {
+            number2InputDiv.style.display = 'none'; // Hide number2 input
+            powerButton.style.display = 'none';      // Hide power button
+            const number = number1Input.value;
+            fetch(`/ln/${number}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.textContent = `Natural Logarithm of ${number} is: ${data.result}`;
+                })
+                .catch(error => {
+                    resultDiv.textContent = `Error: ${error}`;
+                });
+        }
+
+        function showPowerInput() {
+            number2InputDiv.style.display = 'block'; // Show number2 input
+            powerButton.style.display = 'inline-block'; // Show power button
+        }
+
+        function calculatePower() {
+            const base = number1Input.value;
+            const exponent = number2Input.value;
+            fetch(`/power/${base}/${exponent}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.textContent = `${base} raised to the power of ${exponent} is: ${data.result}`;
+                })
+                .catch(error => {
+                    resultDiv.textContent = `Error: ${error}`;
+                });
+        }
+    </script>
+</body>
+</html>
