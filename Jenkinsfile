@@ -1,37 +1,90 @@
+
 pipeline {
     agent any
-
     environment {
-        DOCKER_IMAGE_NAME = "dhruva1098/scientific-calculator-api" // Replace with your Docker Hub username and image name
+        DOCKER_IMAGE_NAME = 'scientific_calculator'
+        DOCKER_TAG = 'dhruva1098/scientific-calculator:latest'
+        GITHUB_REPO_URL = 'https://github.com/Dhruva1098/SPE_mini_project.git'
+        DOCKER_CREDENTIALS_ID = '02f01e67-9319-45f2-972e-75df6ef1bf45'  // Ensure correct Jenkins credential ID
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                git scmGit(branches: [[name: '*/main']]), credentialsId: '23cada61-5b14-48e9-84bd-b6561635dc8a', extensions: [], userRemoteConfigs: [[url: 'https://github.com/Dhruva1098/SPE_mini_project/']]  // Replace with your repo URL and credentials ID if needed
+                script {
+                    git branch: 'main', url: "${GITHUB_REPO_URL}"
+                }
             }
         }
-        stage('Test') {
+
+        stage('Install Dependencies') {
             steps {
-                sh 'python -m unittest discover' // Run Python unit tests
+                sh '''
+                    python3 -m venv venv
+                    source venv/bin/activate
+                    python3 -m pip install --upgrade pip
+                    python3 -m pip install -r requirements.txt
+                '''
             }
         }
+
+
+        stage('Run Unit Tests') {
+            steps {
+                sh '''
+                    python3 -m venv venv
+                    source venv/bin/activate
+                    python3 -m pip install --upgrade pip
+                    python3 -m pip install -r requirements.txt
+                    python3 -m unittest test_main.py
+                '''
+            }
+        }
+
+        // stage('Run Unit Tests') {
+        //     steps {
+        //         sh 'pytest --tb=short --disable-warnings'  // Using pytest instead of unittest
+        //     }
+        // }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImage = docker.build(env.DOCKER_IMAGE_NAME, '.') // Build Docker image
-                    dockerImage.push() // Push to Docker Hub (if Docker Hub credentials are configured)
+                    sh 'docker --version'  // Verify Docker installation
+                    sh "docker build -t ${DOCKER_IMAGE_NAME} ."
+                }
+           }
+        }
+
+        stage('Login to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: env.DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh '''
+                        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                    '''
                 }
             }
         }
-        stage('Deploy (Local)') {
+
+        stage('Push to Docker Hub') {
             steps {
                 script {
-                    docker.image(env.DOCKER_IMAGE_NAME).pull() // Pull latest image from Docker Hub
-                    sh 'docker stop scientific-calculator-container || true' // Stop existing container (ignore error if not running)
-                    sh 'docker rm scientific-calculator-container || true'   // Remove existing container (ignore error if not existing)
-                    sh 'docker run -d --name scientific-calculator-container -p 8080:80 ${DOCKER_IMAGE_NAME}' // Run new container
+                    sh "docker tag ${DOCKER_IMAGE_NAME} ${DOCKER_TAG}"
+                    sh "docker push ${DOCKER_TAG}"
                 }
+            }
+        }
+
+        stage('Clean Up Docker Images') {
+            steps {
+                sh "docker rmi ${DOCKER_TAG} || true"  // Remove old images to free space
+                sh "docker rmi ${DOCKER_IMAGE_NAME} || true"
+            }
+        }
+
+        stage('Deploy using Ansible') {
+            steps {
+                sh 'ansible-playbook -i inventory deploy.yml'
             }
         }
     }
