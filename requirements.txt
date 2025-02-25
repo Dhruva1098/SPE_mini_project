@@ -2,3 +2,4 @@ fastapi
 uvicorn
 unittest2
 httpx
+jinja2
