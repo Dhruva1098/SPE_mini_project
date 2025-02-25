@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git scmGit(branches: [[name: '*/main']]), credentialsId: 'github-credentials', extensions: [], userRemoteConfigs: [[url: 'https://github.com/Dhruva1098/SPE_mini_project/']] ) // Replace with your repo URL and credentials ID if needed
+                git scmGit((branches: [[name: '*/main']]), credentialsId: 'github-credentials', extensions: [], userRemoteConfigs: [[url: 'https://github.com/Dhruva1098/SPE_mini_project/']] ) // Replace with your repo URL and credentials ID if needed
             }
         }
         stage('Test') {
