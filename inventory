@@ -1,0 +1,2 @@
+[containers]
+localhost ansible_connection=local ansible_python_interpreter=/Users/dhruvasharma/Documents/SEM2/SPE/assignments/SPE_mini/venv/bin/python3
