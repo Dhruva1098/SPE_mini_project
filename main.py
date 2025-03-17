@@ -16,7 +16,6 @@ async def square_root(number: float):
 
 @app.get("/factorial/{number}")
 async def calculate_factorial(number: int):
-    """ temp changes"""
     """Calculate the factorial of a non-negative integer."""
     if number < 0:
         raise HTTPException(status_code=400, detail="Factorial is not defined for negative numbers")
